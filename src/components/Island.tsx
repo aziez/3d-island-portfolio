@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Group, Mesh } from 'three';
+import { Group } from 'three';
 import { PortfolioSection } from './Scene';
 import { Text, Box, Cylinder, Cone, useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
 import Island3D from '@/models/Island-3d';
 
 interface IslandProps {
@@ -16,7 +15,6 @@ interface IslandProps {
 
 const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
   const groupRef = useRef<Group>(null);
-  const islandRef = useRef<Mesh>(null);
 
   useEffect(() => {
     // Simulate loading completion
@@ -190,7 +188,7 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
       {/* Path markers */}
       {sections.map((section, index) => (
         <Text
-          key={section.id}
+          key={section.id || index}
           position={[
             section.position[0],
             section.position[1] + 1,

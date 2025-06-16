@@ -14,7 +14,7 @@ export default function Island3D(props) {
       {...props}
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
-      position={[0, -0.75, 0]}
+      position={[0, -0.9, 0]}
     >
       <group
         position={[42.197, 29.962, -3.068]}
@@ -68,12 +68,12 @@ export default function Island3D(props) {
         rotation={[Math.PI, -1.095, Math.PI]}
         scale={0.516}
       />
-      <mesh
+      {/* <mesh
         geometry={nodes.Sea_Bottom.geometry}
         material={materials.PaletteMaterial008}
         position={[0.55, -3.683, 8.379]}
-        scale={297.841}
-      />
+        scale={50}
+      /> */}
       <mesh
         geometry={nodes.House_Tile_Tile_Color_1_0002_Door_Metal_0.geometry}
         material={nodes.House_Tile_Tile_Color_1_0002_Door_Metal_0.material}

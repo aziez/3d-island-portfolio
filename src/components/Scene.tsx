@@ -6,9 +6,9 @@ import { Environment, Sky } from '@react-three/drei';
 import Island from './Island';
 import Ocean from './Ocean';
 import UI from './UI';
-import AtmosphericEffects from './AtmosphericEffects';
 import Controls from './Controls';
 import { motion, AnimatePresence } from 'framer-motion';
+import Shark from '@/models/Shark';
 
 export interface PortfolioSection {
   id: string;
@@ -73,6 +73,11 @@ const Scene = () => {
           />
           {/* <Environment preset="sunset" /> */}
 
+          <Environment
+            files="https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/hdri/venice_sunset_1k.hdr"
+            background={false}
+          />
+
           {/* 3D Objects */}
           <Ocean />
           <Island
@@ -80,6 +85,8 @@ const Scene = () => {
             onSectionClick={setActiveSection}
             onLoadComplete={() => setIsLoading(false)}
           />
+          <Shark />
+
           {/* <AtmosphericEffects /> */}
 
           {/* Camera Controls */}
