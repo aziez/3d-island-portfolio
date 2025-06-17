@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useRef, useEffect } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
+import { useRef, useEffect } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
+import { OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
 
 interface ControlsProps {
   target?: [number, number, number];
@@ -105,4 +105,3 @@ const Controls = ({ target = [0, 0, 0] }: ControlsProps) => {
 };
 
 export default Controls;
-

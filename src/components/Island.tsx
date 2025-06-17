@@ -5,7 +5,8 @@ import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import { PortfolioSection } from './Scene';
 import { Text, Box, Cylinder, Cone, useGLTF } from '@react-three/drei';
-import Island3D from '@/models/Island-3d';
+// import Island3D from '@/models/Island-3d';
+import IslandModel from '@/models/Island';
 import Avatar from '@/models/Avatar';
 
 interface IslandProps {
@@ -63,11 +64,7 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
 
   return (
     <group ref={groupRef}>
-      <Island3D />
-
-      {/* <Box args={[2, 2, 2]} position={[0, 1, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color="#ff6b35" metalness={0.3} roughness={0.4} />
-      </Box> */}
+      <IslandModel />
 
       {/* Interactive Elements */}
 
