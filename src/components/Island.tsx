@@ -97,13 +97,13 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
       </InteractiveElement>
 
       {/* Path markers */}
-      {/* {sections.map((section, index) => (
+      {sections.map((section, index) => (
         <Text
           key={section.id || index}
           position={[
             section.position[0],
-            section.position[1] + 2,
-            section.position[2],
+            section.position[1],
+            section.position[2] + 0.4,
           ]}
           fontSize={0.1}
           color="white"
@@ -114,7 +114,7 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
         >
           {section.title}
         </Text>
-      ))} */}
+      ))}
     </group>
   );
 };
