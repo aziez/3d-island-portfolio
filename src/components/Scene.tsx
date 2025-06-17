@@ -33,15 +33,20 @@ const Scene = () => {
     {
       id: 'lighthouse',
       title: 'Projects',
-      position: [-3, 1, -2],
+      position: [-3, 0.5, -0.5],
       type: 'projects',
     },
-    { id: 'terminal', title: 'Resume', position: [0, 0.2, 3], type: 'resume' },
-    { id: 'workshop', title: 'Skills', position: [4, 0.3, -1], type: 'skills' },
+    { id: 'terminal', title: 'Resume', position: [2, 0.5, 4], type: 'resume' },
+    {
+      id: 'workshop',
+      title: 'Skills',
+      position: [-0.75, 0.5, -2],
+      type: 'skills',
+    },
     {
       id: 'postbox',
       title: 'Contact',
-      position: [-2, 0.1, 2],
+      position: [2.4, 0.5, 0.75],
       type: 'contact',
     },
   ];
