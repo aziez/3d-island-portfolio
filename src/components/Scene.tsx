@@ -24,7 +24,12 @@ const Scene = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const portfolioSections: PortfolioSection[] = [
-    { id: 'house', title: 'About Me', position: [2, 0.5, 1], type: 'about' },
+    {
+      id: 'avatar',
+      title: 'About Me',
+      position: [-1, -0.38, 6.5],
+      type: 'about',
+    },
     {
       id: 'lighthouse',
       title: 'Projects',
@@ -44,7 +49,7 @@ const Scene = () => {
   return (
     <div className="w-full h-screen relative">
       <Canvas
-        camera={{ position: [10, 5, 10], fov: 60 }}
+        camera={{ position: [-2, -15, 10], fov: 60 }}
         shadows
         className="bg-gradient-to-b from-sky-300 to-sky-500"
       >
@@ -71,12 +76,8 @@ const Scene = () => {
             inclination={0}
             azimuth={0.25}
           />
-          {/* <Environment preset="sunset" /> */}
 
-          <Environment
-            files="https://cdn.jsdelivr.net/gh/pmndrs/drei-assets@master/hdri/venice_sunset_1k.hdr"
-            background={false}
-          />
+          <Environment files="/venice_sunset_1k.hdr" background={false} />
 
           {/* 3D Objects */}
           <Ocean />

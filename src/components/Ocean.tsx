@@ -97,10 +97,7 @@ export default function RealisticSea() {
   const waterRef = useRef<any>(null);
   const { scene } = useThree();
 
-  const waterNormals = useLoader(
-    THREE.TextureLoader,
-    'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg',
-  );
+  const waterNormals = useLoader(THREE.TextureLoader, '/waternormals.jpg');
 
   useEffect(() => {
     waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;

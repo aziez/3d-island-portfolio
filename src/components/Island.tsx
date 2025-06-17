@@ -6,6 +6,7 @@ import { Group } from 'three';
 import { PortfolioSection } from './Scene';
 import { Text, Box, Cylinder, Cone, useGLTF } from '@react-three/drei';
 import Island3D from '@/models/Island-3d';
+import Avatar from '@/models/Avatar';
 
 interface IslandProps {
   sections: PortfolioSection[];
@@ -64,28 +65,15 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
     <group ref={groupRef}>
       <Island3D />
 
-      <Box args={[2, 2, 2]} position={[0, 1, 0]} castShadow receiveShadow>
+      {/* <Box args={[2, 2, 2]} position={[0, 1, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#ff6b35" metalness={0.3} roughness={0.4} />
-      </Box>
+      </Box> */}
 
       {/* Interactive Elements */}
 
       {/* House - About Me */}
       <InteractiveElement section={sections[0]}>
-        <group>
-          {/* House Base */}
-          <Box args={[1.5, 1, 1.2]} castShadow>
-            <meshLambertMaterial color="#8B4513" />
-          </Box>
-          {/* Roof */}
-          <Cone args={[1.2, 0.8, 4]} position={[0, 0.9, 0]} castShadow>
-            <meshLambertMaterial color="#654321" />
-          </Cone>
-          {/* Door */}
-          <Box args={[0.3, 0.6, 0.02]} position={[0, -0.2, 0.61]} castShadow>
-            <meshLambertMaterial color="#4a2c17" />
-          </Box>
-        </group>
+        <Avatar />
       </InteractiveElement>
 
       {/* Lighthouse - Projects */}
@@ -176,25 +164,16 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
         </group>
       </InteractiveElement>
 
-      <group position={[-1.5, 0.6, -1]}>
-        <Cylinder args={[0.08, 0.12, 0.8, 8]} castShadow>
-          <meshLambertMaterial color="#8B4513" />
-        </Cylinder>
-        <Cone args={[0.5, 1, 8]} position={[0, 0.9, 0]} castShadow>
-          <meshLambertMaterial color="#228B22" />
-        </Cone>
-      </group>
-
       {/* Path markers */}
       {sections.map((section, index) => (
         <Text
           key={section.id || index}
           position={[
             section.position[0],
-            section.position[1] + 1,
+            section.position[1] + 2,
             section.position[2],
           ]}
-          fontSize={0.3}
+          fontSize={0.1}
           color="white"
           anchorX="center"
           anchorY="middle"

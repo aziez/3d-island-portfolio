@@ -15,6 +15,7 @@ export default function Island3D(props) {
       dispose={null}
       scale={[0.1, 0.1, 0.1]}
       position={[0, -0.9, 0]}
+      rotation={[0, 160, 0]}
     >
       <group
         position={[42.197, 29.962, -3.068]}
