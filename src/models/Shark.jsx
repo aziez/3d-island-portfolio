@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import { useFrame, useGraph, useThree } from '@react-three/fiber';
-import { useGLTF, useAnimations } from '@react-three/drei';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useFrame, useGraph } from '@react-three/fiber';
+import { useGLTF, useAnimations, Html } from '@react-three/drei';
 import { SkeletonUtils } from 'three-stdlib';
 import { Group, Vector3 } from 'three';
+import ComicPopup from '@/components/ui/comic-popup';
 
 export default function Shark(props) {
   const group = useRef(null);
@@ -11,27 +12,41 @@ export default function Shark(props) {
   const { nodes, materials } = useGraph(clone);
   const { actions } = useAnimations(animations, group);
 
+  const [showPopup, setShowPopup] = useState(true); // control popup display
+
+  console.log(actions, 'SHR');
+
   useEffect(() => {
     const swimAction =
       actions[
-        'SharkArmature|SharkArmature|SharkArmature|Swim_Bite|SharkArmature|Swim_Bite'
+        'SharkArmature|SharkArmature|SharkArmature|Swim_Fast|SharkArmature|Swim_Fast'
       ];
     swimAction?.play();
   }, [actions]);
 
-  // Animate shark around the island in a circular path
+  function handleClickShark() {
+    setShowPopup(!showPopup);
+    actions[
+      'SharkArmature|SharkArmature|SharkArmature|Swim_Bite|SharkArmature|Swim_Bite'
+    ].play();
+
+    setTimeout(() => {
+      actions[
+        'SharkArmature|SharkArmature|SharkArmature|Swim_Bite|SharkArmature|Swim_Bite'
+      ].stop();
+    }, 2000);
+  }
+
   useFrame(({ clock }) => {
     const radius = 10;
     const speed = 0.3;
     const time = clock.getElapsedTime() * speed;
     const x = Math.cos(time) * radius;
     const z = Math.sin(time) * radius;
-    const y = -1; // keep it under the ocean level
+    const y = -1;
 
     if (group.current) {
       group.current.position.set(x, y, z);
-
-      // Face the direction of movement
       const nextX = Math.cos(time + 0.01) * radius;
       const nextZ = Math.sin(time + 0.01) * radius;
       group.current.lookAt(new Vector3(nextX, y, nextZ));
@@ -40,7 +55,11 @@ export default function Shark(props) {
 
   return (
     <group ref={group} {...props} dispose={null} scale={[0.5, 0.5, 0.5]}>
-      <group name="Root_Scene">
+      <ComicPopup show={showPopup} variant="info">
+        <span className="font-bold text-black">Hey there! 🦈</span>
+      </ComicPopup>
+
+      <group name="Root_Scene" onClick={handleClickShark}>
         <group name="SharkArmature" rotation={[-Math.PI / 2, 0, 0]} scale={100}>
           <primitive object={nodes.Abdomen} />
           <primitive object={nodes.Center} />

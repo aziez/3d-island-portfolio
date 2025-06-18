@@ -9,6 +9,7 @@ import UI from './UI';
 import Controls from './Controls';
 import { motion, AnimatePresence } from 'framer-motion';
 import Shark from '@/models/Shark';
+import Modal3D from '@/components/Modal';
 
 export interface PortfolioSection {
   id: string;
@@ -53,6 +54,25 @@ const Scene = () => {
 
   return (
     <div className="w-full h-screen relative">
+      {/* UI Overlay */}
+      {/* <AnimatePresence>
+        {!isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 pointer-events-none z-9999"
+          >
+            <UI
+              activeSection={activeSection}
+              onClose={() => setActiveSection(null)}
+              sections={portfolioSections}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence> */}
+
       <Canvas
         camera={{ position: [-2, -15, 10], fov: 60 }}
         shadows
@@ -83,6 +103,12 @@ const Scene = () => {
           />
 
           <Environment files="/venice_sunset_1k.hdr" background={false} />
+          {activeSection && (
+            <Modal3D
+              section={activeSection}
+              onClose={() => setActiveSection(null)}
+            />
+          )}
 
           {/* 3D Objects */}
           <Ocean />
@@ -99,25 +125,6 @@ const Scene = () => {
           <Controls target={[0, 0, 0]} />
         </Suspense>
       </Canvas>
-
-      {/* UI Overlay */}
-      <AnimatePresence>
-        {!isLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 pointer-events-none"
-          >
-            <UI
-              activeSection={activeSection}
-              onClose={() => setActiveSection(null)}
-              sections={portfolioSections}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };

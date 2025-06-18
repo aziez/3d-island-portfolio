@@ -8,9 +8,8 @@ import { Text, Box, Cylinder, Cone, useGLTF } from '@react-three/drei';
 // import Island3D from '@/models/Island-3d';
 import IslandModel from '@/models/Island';
 import Avatar from '@/models/Avatar';
-import { GemBlue } from '@/models/GemBlue';
-import { GemGreen } from '@/models/GemGreen';
-import { GemPink } from '@/models/GemPink';
+import PropBottle from '@/models/PropBottle';
+import FloatingLabelCard from '@/components/ui/floating-label';
 
 interface IslandProps {
   sections: PortfolioSection[];
@@ -30,10 +29,8 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
   }, [onLoadComplete]);
 
   useFrame((state) => {
-    // Gentle floating animation for the island
     if (groupRef.current) {
-      groupRef.current.position.y =
-        Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
+      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 1) * 0.2;
     }
   });
 
@@ -78,42 +75,36 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
 
       {/* Lighthouse - Projects */}
       <InteractiveElement section={sections[1]}>
-        <GemBlue />
+        <PropBottle />
       </InteractiveElement>
 
       {/* Terminal - Resume */}
       <InteractiveElement section={sections[2]}>
-        <GemPink />
+        <PropBottle />
       </InteractiveElement>
 
       {/* Workshop - Skills */}
       <InteractiveElement section={sections[3]}>
-        <GemGreen />
+        <PropBottle />
       </InteractiveElement>
 
       {/* Postbox - Contact */}
       <InteractiveElement section={sections[4]}>
-        <GemPink />
+        <PropBottle />
       </InteractiveElement>
 
       {/* Path markers */}
       {sections.map((section, index) => (
-        <Text
-          key={section.id || index}
+        <FloatingLabelCard
+          key={section.id}
           position={[
             section.position[0],
-            section.position[1],
-            section.position[2] + 0.4,
+            section.position[1] + 0.75, // adjust Y for floating effect
+            section.position[2],
           ]}
-          fontSize={0.1}
-          color="white"
-          anchorX="center"
-          anchorY="middle"
-          outlineWidth={0.02}
-          outlineColor="black"
-        >
-          {section.title}
-        </Text>
+          text={section.title}
+          delay={index * 0.2}
+        />
       ))}
     </group>
   );

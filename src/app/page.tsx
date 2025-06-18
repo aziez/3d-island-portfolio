@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
-import dynamic from "next/dynamic";
-import LoadingScreen from "@/components/LoadingScreen";
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import LoadingScreen from '@/components/LoadingScreen';
 
-const Scene = dynamic(() => import("@/components/Scene"), {
+const Scene = dynamic(() => import('@/components/Scene'), {
   ssr: false,
   loading: () => <LoadingScreen />,
 });

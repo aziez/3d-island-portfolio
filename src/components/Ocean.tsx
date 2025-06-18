@@ -31,7 +31,6 @@ export default function Ocean() {
         waterColor: new THREE.Color('#1ca3ec'),
         distortionScale: 4.0,
         fog: !!scene.fog,
-        time: 3000,
       });
       waterRef.current = water;
       ref.current.material = water.material;
