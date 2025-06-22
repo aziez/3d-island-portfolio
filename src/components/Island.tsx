@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import { PortfolioSection } from './Scene';
-import { Text, Box, Cylinder, Cone, useGLTF } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 // import Island3D from '@/models/Island-3d';
 import IslandModel from '@/models/Island';
 import Avatar from '@/models/Avatar';
@@ -15,16 +15,21 @@ interface IslandProps {
   sections: PortfolioSection[];
   onSectionClick: (section: PortfolioSection) => void;
   onLoadComplete: () => void;
+  isModalOpen?: boolean;
 }
 
-const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
+const Island = ({
+  sections,
+  onSectionClick,
+  onLoadComplete,
+  isModalOpen = false,
+}: IslandProps) => {
   const groupRef = useRef<Group>(null);
 
   useEffect(() => {
-    // Simulate loading completion
     const timer = setTimeout(() => {
       onLoadComplete();
-    }, 1000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [onLoadComplete]);
 
@@ -99,11 +104,12 @@ const Island = ({ sections, onSectionClick, onLoadComplete }: IslandProps) => {
           key={section.id}
           position={[
             section.position[0],
-            section.position[1] + 0.75, // adjust Y for floating effect
+            section.position[1] + 0.75,
             section.position[2],
           ]}
           text={section.title}
           delay={index * 0.2}
+          isModalOpen={isModalOpen}
         />
       ))}
     </group>

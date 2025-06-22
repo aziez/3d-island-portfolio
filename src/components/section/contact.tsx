@@ -1,4 +1,8 @@
+import { Center, Float, Html, SpotLight, Text3D } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 import { Mail, MapPin, Phone } from 'lucide-react';
+import { useRef } from 'react';
+import { Mesh } from 'three';
 
 function Contact() {
   return (
@@ -48,5 +52,70 @@ function Contact() {
     </div>
   );
 }
+
+export const ContactScene = () => {
+  const meshRef = useRef<Mesh>(null);
+
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.2;
+      meshRef.current.rotation.z =
+        Math.cos(state.clock.elapsedTime * 0.5) * 0.1;
+    }
+  });
+
+  return (
+    <group>
+      <Float speed={2} rotationIntensity={0.5} floatIntensity={0.3}>
+        <Center>
+          <Text3D
+            font="/fonts/Caprasimo_Regular.json"
+            size={1}
+            height={0.2}
+            curveSegments={12}
+            bevelEnabled
+            bevelThickness={0.02}
+            bevelSize={0.02}
+            bevelOffset={0}
+            bevelSegments={5}
+          >
+            GET IN TOUCH
+            <meshStandardMaterial color="#ffffff" />
+          </Text3D>
+        </Center>
+      </Float>
+
+      {/* Communication icons floating around */}
+      {['📧', '📱', '💼', '🌐'].map((icon, index) => (
+        <Float
+          key={index}
+          speed={1 + index * 0.3}
+          rotationIntensity={0.3}
+          floatIntensity={0.8}
+        >
+          <Html
+            position={[
+              Math.cos((index / 4) * Math.PI * 2) * 4,
+              Math.sin(index * 2) * 2,
+              Math.sin((index / 4) * Math.PI * 2) * 2,
+            ]}
+            center
+          >
+            <div className="text-4xl animate-pulse">{icon}</div>
+          </Html>
+        </Float>
+      ))}
+
+      {/* Spotlight effect */}
+      <SpotLight
+        position={[0, 10, 0]}
+        angle={0.3}
+        penumbra={1}
+        intensity={2}
+        castShadow
+      />
+    </group>
+  );
+};
 
 export default Contact;

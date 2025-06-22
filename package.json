@@ -11,9 +11,13 @@
   "dependencies": {
     "@react-three/drei": "^10.3.0",
     "@react-three/fiber": "^9.1.2",
+    "@theatre/core": "^0.5.1",
+    "@theatre/r3f": "^0.5.1",
+    "@theatre/studio": "^0.5.1",
     "@types/three": "^0.177.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
+    "gsap": "^3.13.0",
     "lucide-react": "^0.515.0",
     "motion": "^12.18.1",
     "next": "15.3.3",

@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { Float, Html } from '@react-three/drei';
+import { motion } from 'framer-motion';
 
 function Resume() {
   return (
@@ -68,5 +69,51 @@ function Resume() {
     </div>
   );
 }
+
+export const ResumeScene = () => {
+  const pages = [
+    {
+      title: 'Experience',
+      items: ['Senior Dev', 'Full Stack', '3D Specialist'],
+    },
+    {
+      title: 'Education',
+      items: ['Computer Science', 'Web Development', '3D Graphics'],
+    },
+    { title: 'Achievements', items: ['Awards', 'Certifications', 'Projects'] },
+  ];
+
+  return (
+    <group>
+      {pages.map((page, index) => (
+        <Float
+          key={index}
+          speed={1.2 + index * 0.2}
+          rotationIntensity={0.1}
+          floatIntensity={0.4}
+        >
+          <group position={[(index - 1) * 3, 0, index * 0.5]}>
+            <mesh>
+              <planeGeometry args={[2, 3]} />
+              <meshStandardMaterial color="#ffffff" />
+            </mesh>
+            <Html position={[0, 0, 0.01]} center transform>
+              <div className="p-4 text-center">
+                <h3 className="font-bold text-lg text-gray-800 mb-2">
+                  {page.title}
+                </h3>
+                {page.items.map((item, i) => (
+                  <p key={i} className="text-sm text-gray-600 mb-1">
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </Html>
+          </group>
+        </Float>
+      ))}
+    </group>
+  );
+};
 
 export default Resume;

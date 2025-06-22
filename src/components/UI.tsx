@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { PortfolioSection } from './Scene';
-import { X, Github, ExternalLink, Mail, Phone, MapPin } from 'lucide-react';
+import { X } from 'lucide-react';
 import Contact from '@/components/section/contact';
 import Resume from '@/components/section/resume';
 import Projects from '@/components/section/project';

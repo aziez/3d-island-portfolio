@@ -4,15 +4,39 @@ import { useGLTF, useAnimations, Html } from '@react-three/drei';
 import { SkeletonUtils } from 'three-stdlib';
 import { Group, Vector3 } from 'three';
 import ComicPopup from '@/components/ui/comic-popup';
+import { motion } from 'framer-motion';
 
-export default function Shark(props) {
+export default function Shark({
+  userName,
+  showWelcome = false,
+  onWelcomeComplete,
+  ...props
+}) {
   const group = useRef(null);
   const { scene, animations } = useGLTF('/shark-transformed.glb');
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes, materials } = useGraph(clone);
   const { actions } = useAnimations(animations, group);
 
-  const [showPopup, setShowPopup] = useState(true); // control popup display
+  const [showPopup, setShowPopup] = useState(showWelcome);
+  const [welcomePhase, setWelcomePhase] = useState(0);
+  const [interactionCount, setInteractionCount] = useState(0);
+
+  const welcomeMessages = [
+    `Hi ${userName || 'Visitor'}! 🦈`,
+    `Welcome to my underwater world!`,
+    `I'm your guide through this 3D journey`,
+    `Click on the island elements to explore!`,
+    `Let's dive into the portfolio adventure! 🌊`,
+  ];
+
+  const randomMessages = [
+    `Hey ${userName || 'Friend'}! Having fun exploring? 🦈`,
+    `Need help navigating? Just keep swimming! 🏊‍♂️`,
+    `Don't forget to check out all the interactive elements!`,
+    `This 3D world has many secrets to discover! ✨`,
+    `Swimming is my thing, but coding is theirs! 💻`,
+  ];
 
   console.log(actions, 'SHR');
 
@@ -22,10 +46,29 @@ export default function Shark(props) {
         'SharkArmature|SharkArmature|SharkArmature|Swim_Fast|SharkArmature|Swim_Fast'
       ];
     swimAction?.play();
-  }, [actions]);
+
+    // Show welcome sequence
+    if (showWelcome && userName) {
+      let currentPhase = 0;
+      const welcomeInterval = setInterval(() => {
+        setWelcomePhase(currentPhase);
+        currentPhase++;
+
+        if (currentPhase >= welcomeMessages.length) {
+          clearInterval(welcomeInterval);
+          setTimeout(() => {
+            setShowPopup(false);
+            onWelcomeComplete?.();
+          }, 3000);
+        }
+      }, 2500);
+
+      return () => clearInterval(welcomeInterval);
+    }
+  }, [actions, showWelcome, userName, onWelcomeComplete]);
 
   function handleClickShark() {
-    setShowPopup(!showPopup);
+    // Bite animation
     actions[
       'SharkArmature|SharkArmature|SharkArmature|Swim_Bite|SharkArmature|Swim_Bite'
     ].play();
@@ -35,7 +78,24 @@ export default function Shark(props) {
         'SharkArmature|SharkArmature|SharkArmature|Swim_Bite|SharkArmature|Swim_Bite'
       ].stop();
     }, 2000);
+
+    // Show different messages based on interaction
+    if (!showWelcome) {
+      setShowPopup(true);
+      setInteractionCount((prev) => prev + 1);
+
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+    }
   }
+
+  const getCurrentMessage = () => {
+    if (showWelcome) {
+      return welcomeMessages[welcomePhase] || welcomeMessages[0];
+    }
+    return randomMessages[interactionCount % randomMessages.length];
+  };
 
   useFrame(({ clock }) => {
     const radius = 10;
@@ -55,8 +115,8 @@ export default function Shark(props) {
 
   return (
     <group ref={group} {...props} dispose={null} scale={[0.5, 0.5, 0.5]}>
-      <ComicPopup show={showPopup} variant="info">
-        <span className="font-bold text-black">Hey there! 🦈</span>
+      <ComicPopup show={showPopup} variant={showWelcome ? 'welcome' : 'info'}>
+        <span className="font-bold text-black">{getCurrentMessage()}</span>
       </ComicPopup>
 
       <group name="Root_Scene" onClick={handleClickShark}>

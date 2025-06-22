@@ -1,7 +1,11 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Github, ExternalLink, Mail, Phone, MapPin } from 'lucide-react';
+import { Float, Html } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
+import { motion } from 'framer-motion';
+import { Github, ExternalLink } from 'lucide-react';
+import { useRef } from 'react';
+import { Group } from 'three';
 
 function Projects() {
   return (
@@ -78,5 +82,61 @@ function Projects() {
     </div>
   );
 }
+
+export const ProjectsScene = () => {
+  const groupRef = useRef<Group>(null);
+
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.2;
+    }
+  });
+
+  const projects: {
+    name: string;
+    color: string;
+    position: [number, number, number];
+  }[] = [
+    { name: '3D Portfolio', color: '#ff6b6b', position: [0, 2, 0] },
+    { name: 'Web App', color: '#4ecdc4', position: [2, 0, 0] },
+    { name: 'Mobile App', color: '#45b7d1', position: [-2, 0, 0] },
+    { name: 'AI Project', color: '#96ceb4', position: [0, -2, 0] },
+  ];
+
+  return (
+    <group ref={groupRef}>
+      {projects.map((project, index) => (
+        <Float
+          key={index}
+          speed={1 + index * 0.2}
+          rotationIntensity={0.3}
+          floatIntensity={0.8}
+        >
+          <group position={project.position}>
+            <mesh>
+              <boxGeometry args={[1, 1, 1]} />
+              <meshStandardMaterial
+                color={project.color}
+                roughness={0.2}
+                metalness={0.8}
+              />
+            </mesh>
+            <Html position={[0, 1.5, 0]} center>
+              <div className="bg-black/80 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                {project.name}
+              </div>
+            </Html>
+          </group>
+        </Float>
+      ))}
+
+      {/* Center glow */}
+      <mesh position={[0, 0, 0]}>
+        <sphereGeometry args={[0.5, 16, 16]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.1} />
+      </mesh>
+    </group>
+  );
+};
 
 export default Projects;
